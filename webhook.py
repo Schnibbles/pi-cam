@@ -11,6 +11,6 @@ chargelevel = pj.status.GetChargeLevel()
 batterystatus = list(chargelevel.keys())[0]
 print(batterystatus)
 
-url = "http://192.168.1.131/api/webhook/pi-cambatterypercentage"
+url = "http://192.168.1.131:8123/api/webhook/pi-cambatterypercentage"
 post = requests.post(url,batterystatus)
 

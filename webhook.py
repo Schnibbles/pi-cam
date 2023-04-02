@@ -7,5 +7,5 @@ from pijuice import PiJuice
 pj = PiJuice(1,0x14)
 
 chargelevel = pj.status.GetChargeLevel()
-batterystatus = list(chargelevel)[0]
+batterystatus = chargelevel[0]
 print(batterystatus)

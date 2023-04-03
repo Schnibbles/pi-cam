@@ -12,9 +12,9 @@ header = {
 "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI2ODBiODZiNmQyYzc0MjY0OWVhZmMzMDVjNDExZTk2OCIsI>"}
 
 while True:
-  chargelevel_percentage = float(list(pj.status.GetChargeLevel().values()[0]))
-#  percentage = float(list(chargelevel.values())[0])
-  chargelevel = {"data": chargelevel_percentage}
-  ha = requests.post(url,json = chargelevel,headers = header)
+  chargelevel = pj.status.GetChargeLevel()
+  percentage = float(list(chargelevel.values())[0])
+  chargelevel_percentage = {"data": percentage}
+  ha = requests.post(url,json = chargelevel_percentage,headers = header)
   time.sleep(300)
   

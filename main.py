@@ -21,7 +21,7 @@ def digital_data():
 
 def photo(number_of_pics):
   filename = "/media/pics/images/image_" + str(number_of_pics) + ".jpg"
-  subprocess.run(["sudo","raspistill","-o",filename])
+  subprocess.run(["sudo","raspistill","--no-preview","-t","2","-o",,filename])
   print("Taken a photo - current number of pics is ",number_of_pics)
 
 def bird_check():

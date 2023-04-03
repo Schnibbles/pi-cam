@@ -17,5 +17,11 @@ header = {
 chargelevel = {"data": percentage}
 
 print(chargelevel)
-ha = requests.post(url,json = chargelevel,headers = header)
-print(ha.status_code)
+
+while True:
+  chargelevel = pj.status.GetChargeLevel()
+  percentage = float(list(chargelevel.values())[0])
+  chargelevel = {"data": percentage}
+  ha = requests.post(url,json = chargelevel,headers = header)
+  sleep(300)
+  

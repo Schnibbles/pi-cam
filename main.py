@@ -6,7 +6,7 @@ import requests
 
 sleep = time.sleep
 
-os.system("sudo mount //192.168.1.131/film /media/pics/")
+os.system("sudo mount //192.168.1.131/film /media/pics/ -o guest")
 os.system("sudo hwclock -w")
 
 number_of_pics = 0
@@ -21,7 +21,7 @@ def digital_data():
 
 def photo(number_of_pics):
   filename = "/media/pics/images/image_" + str(number_of_pics) + ".jpg"
-  subprocess.run(["sudo raspistill","-o",filename])
+  subprocess.run(["sudo","raspistill","-o",filename])
   print("Taken a photo - current number of pics is ",number_of_pics)
 
 def bird_check():

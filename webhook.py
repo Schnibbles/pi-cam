@@ -23,5 +23,5 @@ while True:
   percentage = float(list(chargelevel.values())[0])
   chargelevel = {"data": percentage}
   ha = requests.post(url,json = chargelevel,headers = header)
-  sleep(300)
+  time.sleep(300)
   

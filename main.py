@@ -1,12 +1,17 @@
 from pijuice import PiJuice as pijuice
-from time import sleep
+import time
 import subprocess
 import os
+import requests
+
+sleep = time.sleep
 
 os.system("sudo mount //192.168.1.131/film /media/pics/")
+os.system("sudo hwlock -w")
 
 number_of_pics = 0
 pijuice = pijuice(1,0x14)
+last_webhook_update = time.time()
 
 def digital_data():
   dict = pijuice.status.GetIoDigitalInput(2)
@@ -29,6 +34,21 @@ def bird_check():
     sleep(1)
     print("No motion","(",digital_data(),")")
 
+def webhook_update():
+  global last_webhook_update 
+  if time.time()-last_webhook_update >300:
+    url = "http://192.168.1.131:8123/api/webhook/pi-cambatterypercentage"
+    header = {
+"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI2ODBiODZiNmQyYzc0MjY0OWVhZmMzMDVjNDExZTk2OCIsI>"}
+    chargelevel = pijuice.status.GetChargeLevel()
+    percentage = float(list(chargelevel.values())[0])
+    chargelevel_percentage = {"data": percentage}
+    ha = requests.post(url,json = chargelevel_percentage,headers = header)
+    last_webhook_update = time.time()
+  else:
+    pass 
+
 while True:
   bird_check()
+  webhook_update()
   sleep(0.5)

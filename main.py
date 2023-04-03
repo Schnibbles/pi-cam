@@ -7,7 +7,7 @@ import requests
 sleep = time.sleep
 
 os.system("sudo mount //192.168.1.131/film /media/pics/")
-os.system("sudo hwlock -w")
+os.system("sudo hwclock -w")
 
 number_of_pics = 0
 pijuice = pijuice(1,0x14)
@@ -45,6 +45,7 @@ def webhook_update():
     chargelevel_percentage = {"data": percentage}
     ha = requests.post(url,json = chargelevel_percentage,headers = header)
     last_webhook_update = time.time()
+    print("Successfully updated webhook")
   else:
     pass 
 

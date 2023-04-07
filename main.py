@@ -6,6 +6,8 @@ import requests
 
 sleep = time.sleep
 
+sleep(60)
+
 os.system("sudo mount //192.168.1.131/film /media/pics/ -o password=")
 os.system("sudo hwclock -w")
 

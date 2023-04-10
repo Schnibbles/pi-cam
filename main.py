@@ -13,7 +13,7 @@ os.system("sudo hwclock -w")
 
 number_of_pics = 0
 pijuice = pijuice(1,0x14)
-last_webhook_update = time.time()
+last_webhook_update = time.time() - 360
 
 def digital_data():
   dict = pijuice.status.GetIoDigitalInput(2)
@@ -23,15 +23,22 @@ def digital_data():
 
 def photo(number_of_pics):
   filename = "/media/pics/images/image_" + str(number_of_pics) + ".jpg"
-#  subprocess.run(["sudo","raspistill","-t","2","-o",filename])
+  subprocess.run(["sudo","raspistill","-t","2","-o",filename])
   print("Taken a photo - current number of pics is ",number_of_pics)
 
 def bird_check():
   if digital_data() == 1:
-    global number_of_pics
-    photo(number_of_pics)
-    number_of_pics = number_of_pics + 1
     sleep(2)
+    if digital_data() == 1:
+      global number_of_pics
+      photo(number_of_pics)
+      if number_of_pics < 300:
+        number_of_pics = number_of_pics + 1
+      else:
+        number_of_pics = 0
+      sleep(2)
+    else:
+      pass
   else:
     sleep(1)
     print("No motion","(",digital_data(),")")
@@ -54,4 +61,4 @@ def webhook_update():
 while True:
   bird_check()
   webhook_update()
-  sleep(0.5)
+  sleep(1)

@@ -15,6 +15,8 @@ number_of_pics = 0
 pijuice = pijuice(1,0x14)
 last_webhook_update = time.time() - 360
 
+pijuice.rtcAlarm.SetWakeupEnabled(True)
+
 def digital_data():
   dict = pijuice.status.GetIoDigitalInput(2)
   status = dict["data"]

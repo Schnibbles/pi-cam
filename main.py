@@ -3,6 +3,7 @@ import time
 import subprocess
 import os
 import requests
+from datetime import datetime as dt
 
 sleep = time.sleep
 
@@ -10,12 +11,18 @@ sleep(60)
 
 os.system("sudo mount //192.168.1.131/film /media/pics/ -o password=")
 os.system("sudo hwclock -w")
+os.system("sudo shutdown 20:30")
 
 number_of_pics = 0
 pijuice = pijuice(1,0x14)
 last_webhook_update = time.time() - 360
-
 pijuice.rtcAlarm.SetWakeupEnabled(True)
+
+
+now = dt.now()
+foldername = now.strftime("%a %d %b %I%M")
+command = "mkdir /media/pics/images/" + foldername
+os.system(command)
 
 def digital_data():
   dict = pijuice.status.GetIoDigitalInput(2)
@@ -24,13 +31,14 @@ def digital_data():
 
 
 def photo(number_of_pics):
-  filename = "/media/pics/images/image_" + str(number_of_pics) + ".jpg"
-  subprocess.run(["sudo","raspistill","-t","2","-o",filename])
+  global foldername
+  filename = "/media/pics/images/" + foldername + "/image_" + str(number_of_pics) + ".jpg"
+  subprocess.run(["sudo","raspistill","-t","1500","-o",filename])
   print("Taken a photo - current number of pics is ",number_of_pics)
 
 def bird_check():
   if digital_data() == 1:
-    sleep(2)
+    sleep(1)
     if digital_data() == 1:
       global number_of_pics
       photo(number_of_pics)
@@ -38,15 +46,13 @@ def bird_check():
         number_of_pics = number_of_pics + 1
       else:
         number_of_pics = 0
-      sleep(2)
     else:
       pass
   else:
-    sleep(1)
     print("No motion","(",digital_data(),")")
 
 def webhook_update():
-  global last_webhook_update 
+  global last_webhook_update
   if time.time()-last_webhook_update >300:
     url = "http://192.168.1.131:8123/api/webhook/pi-cambatterypercentage"
     header = {
@@ -58,9 +64,9 @@ def webhook_update():
     last_webhook_update = time.time()
     print("Successfully updated webhook")
   else:
-    pass 
+    pass
 
 while True:
   bird_check()
   webhook_update()
-  sleep(1)
+  sleep(0.5)

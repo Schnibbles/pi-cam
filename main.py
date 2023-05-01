@@ -33,12 +33,12 @@ def digital_data():
 def photo(number_of_pics):
   global foldername
   filename = "/media/pics/images/" + foldername + "/image_" + str(number_of_pics) + ".jpg"
-  subprocess.run(["sudo","raspistill","-t","1500","-o",filename])
+  subprocess.run(["sudo","raspistill","-t","2000","-o",filename])
   print("Taken a photo - current number of pics is ",number_of_pics)
 
 def bird_check():
   if digital_data() == 1:
-    sleep(1)
+    sleep(1.5)
     if digital_data() == 1:
       global number_of_pics
       photo(number_of_pics)
@@ -69,4 +69,4 @@ def webhook_update():
 while True:
   bird_check()
   webhook_update()
-  sleep(0.5)
+  sleep(1)

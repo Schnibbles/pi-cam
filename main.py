@@ -21,7 +21,7 @@ pijuice.rtcAlarm.SetWakeupEnabled(True)
 
 now = dt.now()
 foldername = now.strftime("%j")
-command = "mkdir /media/pics/images/" + foldername
+command = "sudo mkdir /media/pics/images/" + foldername
 os.system(command)
 
 def digital_data():

@@ -20,7 +20,7 @@ pijuice.rtcAlarm.SetWakeupEnabled(True)
 
 
 now = dt.now()
-foldername = now.strftime("%a %d %b %I%M")
+foldername = now.strftime("%a %d %b %I %M")
 command = "mkdir /media/pics/images/" + foldername
 os.system(command)
 
